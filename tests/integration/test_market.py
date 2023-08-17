@@ -1,8 +1,8 @@
 # pylint: disable=redefined-outer-name
 
 import pytest
-from solana.keypair import Keypair
-from solana.publickey import PublicKey
+from solders.keypair import Keypair
+from solders.pubkey import Pubkey
 from solana.rpc.api import Client
 from solana.rpc.types import TxOpts
 
@@ -12,15 +12,15 @@ from pyserum.market import Market
 
 @pytest.mark.integration
 @pytest.fixture(scope="module")
-def bootstrapped_market(http_client: Client, stubbed_market_pk: PublicKey, stubbed_dex_program_pk: PublicKey) -> Market:
+def bootstrapped_market(http_client: Client, stubbed_market_pk: Pubkey, stubbed_dex_program_pk: Pubkey) -> Market:
     return Market.load(http_client, stubbed_market_pk, stubbed_dex_program_pk, force_use_request_queue=True)
 
 
 @pytest.mark.integration
 def test_bootstrapped_market(
     bootstrapped_market: Market,
-    stubbed_market_pk: PublicKey,
-    stubbed_dex_program_pk: PublicKey,
+    stubbed_market_pk: Pubkey,
+    stubbed_dex_program_pk: Pubkey,
     stubbed_base_mint: Keypair,
     stubbed_quote_mint: Keypair,
 ):

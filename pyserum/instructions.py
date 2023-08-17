@@ -2,9 +2,10 @@
 from typing import Dict, List, NamedTuple, Optional
 
 from construct import Container
-from solana.publickey import PublicKey
-from solana.sysvar import SYSVAR_RENT_PUBKEY
-from solana.transaction import AccountMeta, TransactionInstruction
+from solders.pubkey import Pubkey
+from solders.sysvar import RENT
+from solana.transaction import AccountMeta
+from solders.instruction import Instruction
 from solana.utils.validate import validate_instruction_keys, validate_instruction_type
 from spl.token.constants import TOKEN_PROGRAM_ID
 
@@ -12,29 +13,29 @@ from ._layouts.instructions import INSTRUCTIONS_LAYOUT, InstructionType
 from .enums import OrderType, SelfTradeBehavior, Side
 
 # V3
-DEFAULT_DEX_PROGRAM_ID = PublicKey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+DEFAULT_DEX_PROGRAM_ID = Pubkey.from_string("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
 
 
 class InitializeMarketParams(NamedTuple):
     """Initalize market params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    bids: PublicKey
+    bids: Pubkey
     """"""
-    asks: PublicKey
+    asks: Pubkey
     """"""
-    base_vault: PublicKey
+    base_vault: Pubkey
     """"""
-    quote_vault: PublicKey
+    quote_vault: Pubkey
     """"""
-    base_mint: PublicKey
+    base_mint: Pubkey
     """"""
-    quote_mint: PublicKey
+    quote_mint: Pubkey
     """"""
     base_lot_size: int
     """"""
@@ -46,25 +47,25 @@ class InitializeMarketParams(NamedTuple):
     """"""
     quote_dust_threshold: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
 
 
 class NewOrderParams(NamedTuple):
     """New order params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    payer: PublicKey
+    payer: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
-    base_vault: PublicKey
+    base_vault: Pubkey
     """"""
-    quote_vault: PublicKey
+    quote_vault: Pubkey
     """"""
     side: Side
     """"""
@@ -76,58 +77,58 @@ class NewOrderParams(NamedTuple):
     """"""
     client_id: int = 0
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class MatchOrdersParams(NamedTuple):
     """Match order params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    bids: PublicKey
+    bids: Pubkey
     """"""
-    asks: PublicKey
+    asks: Pubkey
     """"""
-    base_vault: PublicKey
+    base_vault: Pubkey
     """"""
-    quote_vault: PublicKey
+    quote_vault: Pubkey
     """"""
     limit: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class ConsumeEventsParams(NamedTuple):
     """Consume events params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    open_orders_accounts: List[PublicKey]
+    open_orders_accounts: List[Pubkey]
     """"""
     limit: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class CancelOrderParams(NamedTuple):
     """Cancel order params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
     side: Side
     """"""
@@ -135,71 +136,71 @@ class CancelOrderParams(NamedTuple):
     """"""
     open_orders_slot: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class CancelOrderByClientIDParams(NamedTuple):
     """Cancel order by client ID params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
     client_id: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class SettleFundsParams(NamedTuple):
     """Settle fund params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    base_vault: PublicKey
+    base_vault: Pubkey
     """"""
-    quote_vault: PublicKey
+    quote_vault: Pubkey
     """"""
-    base_wallet: PublicKey
+    base_wallet: Pubkey
     """"""
-    quote_wallet: PublicKey
+    quote_wallet: Pubkey
     """"""
-    vault_signer: PublicKey
+    vault_signer: Pubkey
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
 
 
 class NewOrderV3Params(NamedTuple):
     """New order params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    payer: PublicKey
+    payer: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    request_queue: PublicKey
+    request_queue: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    bids: PublicKey
+    bids: Pubkey
     """"""
-    asks: PublicKey
+    asks: Pubkey
     """"""
-    base_vault: PublicKey
+    base_vault: Pubkey
     """"""
-    quote_vault: PublicKey
+    quote_vault: Pubkey
     """"""
     side: Side
     """"""
@@ -217,25 +218,25 @@ class NewOrderV3Params(NamedTuple):
     """"""
     client_id: int = 0
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
-    fee_discount_pubkey: Optional[PublicKey] = None
+    fee_discount_pubkey: Optional[Pubkey] = None
 
 
 class CancelOrderV2Params(NamedTuple):
     """Cancel order params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    bids: PublicKey
+    bids: Pubkey
     """"""
-    asks: PublicKey
+    asks: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
     side: Side
     """"""
@@ -243,64 +244,62 @@ class CancelOrderV2Params(NamedTuple):
     """"""
     open_orders_slot: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class CancelOrderByClientIDV2Params(NamedTuple):
     """Cancel order by client ID params."""
 
-    market: PublicKey
+    market: Pubkey
     """"""
-    bids: PublicKey
+    bids: Pubkey
     """"""
-    asks: PublicKey
+    asks: Pubkey
     """"""
-    event_queue: PublicKey
+    event_queue: Pubkey
     """"""
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
     client_id: int
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class CloseOpenOrdersParams(NamedTuple):
     """Cancel order by client ID params."""
 
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    sol_wallet: PublicKey
+    sol_wallet: Pubkey
     """"""
-    market: PublicKey
+    market: Pubkey
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
 class InitOpenOrdersParams(NamedTuple):
     """Cancel order by client ID params."""
 
-    open_orders: PublicKey
+    open_orders: Pubkey
     """"""
-    owner: PublicKey
+    owner: Pubkey
     """"""
-    market: PublicKey
+    market: Pubkey
     """"""
-    market_authority: Optional[PublicKey] = None
+    market_authority: Optional[Pubkey] = None
     """"""
-    program_id: PublicKey = DEFAULT_DEX_PROGRAM_ID
+    program_id: Pubkey = DEFAULT_DEX_PROGRAM_ID
     """"""
 
 
-def __parse_and_validate_instruction(
-    instruction: TransactionInstruction, instruction_type: InstructionType
-) -> Container:
+def __parse_and_validate_instruction(instruction: Instruction, instruction_type: InstructionType) -> Container:
     instruction_type_to_length_map: Dict[InstructionType, int] = {
         InstructionType.INITIALIZE_MARKET: 9,
         InstructionType.NEW_ORDER: 9,
@@ -322,7 +321,7 @@ def __parse_and_validate_instruction(
 
 
 def decode_initialize_market(
-    instruction: TransactionInstruction,
+    instruction: Instruction,
 ) -> InitializeMarketParams:
     """Decode an instialize market instruction and retrieve the instruction params."""
     data = __parse_and_validate_instruction(instruction, InstructionType.INITIALIZE_MARKET)
@@ -345,7 +344,7 @@ def decode_initialize_market(
     )
 
 
-def decode_new_order(instruction: TransactionInstruction) -> NewOrderParams:
+def decode_new_order(instruction: Instruction) -> NewOrderParams:
     data = __parse_and_validate_instruction(instruction, InstructionType.NEW_ORDER)
     return NewOrderParams(
         market=instruction.keys[0].pubkey,
@@ -363,7 +362,7 @@ def decode_new_order(instruction: TransactionInstruction) -> NewOrderParams:
     )
 
 
-def decode_match_orders(instruction: TransactionInstruction) -> MatchOrdersParams:
+def decode_match_orders(instruction: Instruction) -> MatchOrdersParams:
     """Decode a match orders instruction and retrieve the instruction params."""
     data = __parse_and_validate_instruction(instruction, InstructionType.MATCH_ORDER)
     return MatchOrdersParams(
@@ -378,7 +377,7 @@ def decode_match_orders(instruction: TransactionInstruction) -> MatchOrdersParam
     )
 
 
-def decode_consume_events(instruction: TransactionInstruction) -> ConsumeEventsParams:
+def decode_consume_events(instruction: Instruction) -> ConsumeEventsParams:
     """Decode a consume events instruction and retrieve the instruction params."""
     data = __parse_and_validate_instruction(instruction, InstructionType.CONSUME_EVENTS)
     return ConsumeEventsParams(
@@ -390,7 +389,7 @@ def decode_consume_events(instruction: TransactionInstruction) -> ConsumeEventsP
     )
 
 
-def decode_cancel_order(instruction: TransactionInstruction) -> CancelOrderParams:
+def decode_cancel_order(instruction: Instruction) -> CancelOrderParams:
     data = __parse_and_validate_instruction(instruction, InstructionType.CANCEL_ORDER)
     return CancelOrderParams(
         market=instruction.keys[0].pubkey,
@@ -403,7 +402,7 @@ def decode_cancel_order(instruction: TransactionInstruction) -> CancelOrderParam
     )
 
 
-def decode_settle_funds(instruction: TransactionInstruction) -> SettleFundsParams:
+def decode_settle_funds(instruction: Instruction) -> SettleFundsParams:
     # data = __parse_and_validate_instruction(instruction, InstructionType.SettleFunds)
     return SettleFundsParams(
         market=instruction.keys[0].pubkey,
@@ -418,7 +417,7 @@ def decode_settle_funds(instruction: TransactionInstruction) -> SettleFundsParam
 
 
 def decode_cancel_order_by_client_id(
-    instruction: TransactionInstruction,
+    instruction: Instruction,
 ) -> CancelOrderByClientIDParams:
     data = __parse_and_validate_instruction(instruction, InstructionType.CANCEL_ORDER_BY_CLIENT_ID)
     return CancelOrderByClientIDParams(
@@ -430,7 +429,7 @@ def decode_cancel_order_by_client_id(
     )
 
 
-def decode_new_order_v3(instruction: TransactionInstruction) -> NewOrderV3Params:
+def decode_new_order_v3(instruction: Instruction) -> NewOrderV3Params:
     data = __parse_and_validate_instruction(instruction, InstructionType.NEW_ORDER_V3)
     return NewOrderV3Params(
         market=instruction.keys[0].pubkey,
@@ -454,7 +453,7 @@ def decode_new_order_v3(instruction: TransactionInstruction) -> NewOrderV3Params
     )
 
 
-def decode_cancel_order_v2(instruction: TransactionInstruction) -> CancelOrderV2Params:
+def decode_cancel_order_v2(instruction: Instruction) -> CancelOrderV2Params:
     data = __parse_and_validate_instruction(instruction, InstructionType.CANCEL_ORDER_V2)
     return CancelOrderV2Params(
         market=instruction.keys[0].pubkey,
@@ -469,7 +468,7 @@ def decode_cancel_order_v2(instruction: TransactionInstruction) -> CancelOrderV2
     )
 
 
-def decode_cancel_order_by_client_id_v2(instruction: TransactionInstruction) -> CancelOrderByClientIDV2Params:
+def decode_cancel_order_by_client_id_v2(instruction: Instruction) -> CancelOrderByClientIDV2Params:
     data = __parse_and_validate_instruction(instruction, InstructionType.CANCEL_ORDER_BY_CLIENT_ID_V2)
     return CancelOrderByClientIDV2Params(
         market=instruction.keys[0].pubkey,
@@ -483,7 +482,7 @@ def decode_cancel_order_by_client_id_v2(instruction: TransactionInstruction) -> 
 
 
 def decode_close_open_orders(
-    instruction: TransactionInstruction,
+    instruction: Instruction,
 ) -> CloseOpenOrdersParams:
     return CloseOpenOrdersParams(
         open_orders=instruction.keys[0].pubkey,
@@ -494,7 +493,7 @@ def decode_close_open_orders(
 
 
 def decode_init_open_orders(
-    instruction: TransactionInstruction,
+    instruction: Instruction,
 ) -> InitOpenOrdersParams:
     market_authority = instruction.keys[-1].pubkey if len(instruction.keys) == 5 else None
     return InitOpenOrdersParams(
@@ -505,9 +504,9 @@ def decode_init_open_orders(
     )
 
 
-def initialize_market(params: InitializeMarketParams) -> TransactionInstruction:
+def initialize_market(params: InitializeMarketParams) -> Instruction:
     """Generate a transaction instruction to initialize a Serum market."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.request_queue, is_signer=False, is_writable=True),
@@ -535,9 +534,9 @@ def initialize_market(params: InitializeMarketParams) -> TransactionInstruction:
     )
 
 
-def new_order(params: NewOrderParams) -> TransactionInstruction:
+def new_order(params: NewOrderParams) -> Instruction:
     """Generate a transaction instruction to place new order."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
@@ -547,7 +546,7 @@ def new_order(params: NewOrderParams) -> TransactionInstruction:
             AccountMeta(pubkey=params.base_vault, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.quote_vault, is_signer=False, is_writable=True),
             AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
-            AccountMeta(pubkey=SYSVAR_RENT_PUBKEY, is_signer=False, is_writable=False),
+            AccountMeta(pubkey=RENT, is_signer=False, is_writable=False),
         ],
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(
@@ -565,9 +564,9 @@ def new_order(params: NewOrderParams) -> TransactionInstruction:
     )
 
 
-def match_orders(params: MatchOrdersParams) -> TransactionInstruction:
+def match_orders(params: MatchOrdersParams) -> Instruction:
     """Generate a transaction instruction to match order."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.request_queue, is_signer=False, is_writable=True),
@@ -587,14 +586,14 @@ def match_orders(params: MatchOrdersParams) -> TransactionInstruction:
     )
 
 
-def consume_events(params: ConsumeEventsParams) -> TransactionInstruction:
+def consume_events(params: ConsumeEventsParams) -> Instruction:
     """Generate a transaction instruction to consume market events."""
     keys = [
         AccountMeta(pubkey=pubkey, is_signer=False, is_writable=True)
         # NOTE - last two accounts are required for backwards compatibility but are ignored
         for pubkey in params.open_orders_accounts + (2 * [params.market, params.event_queue])
     ]
-    return TransactionInstruction(
+    return Instruction(
         keys=keys,
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(
@@ -606,9 +605,9 @@ def consume_events(params: ConsumeEventsParams) -> TransactionInstruction:
     )
 
 
-def cancel_order(params: CancelOrderParams) -> TransactionInstruction:
+def cancel_order(params: CancelOrderParams) -> Instruction:
     """Generate a transaction instruction to cancel order."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
@@ -630,9 +629,9 @@ def cancel_order(params: CancelOrderParams) -> TransactionInstruction:
     )
 
 
-def settle_funds(params: SettleFundsParams) -> TransactionInstruction:
+def settle_funds(params: SettleFundsParams) -> Instruction:
     """Generate a transaction instruction to settle fund."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
@@ -651,9 +650,9 @@ def settle_funds(params: SettleFundsParams) -> TransactionInstruction:
 
 def cancel_order_by_client_id(
     params: CancelOrderByClientIDParams,
-) -> TransactionInstruction:
+) -> Instruction:
     """Generate a transaction instruction to cancel order by client id."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
@@ -672,7 +671,7 @@ def cancel_order_by_client_id(
     )
 
 
-def new_order_v3(params: NewOrderV3Params) -> TransactionInstruction:
+def new_order_v3(params: NewOrderV3Params) -> Instruction:
     """Generate a transaction instruction to place new order."""
     touched_keys = [
         AccountMeta(pubkey=params.market, is_signer=False, is_writable=True),
@@ -686,13 +685,13 @@ def new_order_v3(params: NewOrderV3Params) -> TransactionInstruction:
         AccountMeta(pubkey=params.base_vault, is_signer=False, is_writable=True),
         AccountMeta(pubkey=params.quote_vault, is_signer=False, is_writable=True),
         AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
-        AccountMeta(pubkey=SYSVAR_RENT_PUBKEY, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=RENT, is_signer=False, is_writable=False),
     ]
     if params.fee_discount_pubkey:
         touched_keys.append(
             AccountMeta(pubkey=params.fee_discount_pubkey, is_signer=False, is_writable=False),
         )
-    return TransactionInstruction(
+    return Instruction(
         keys=touched_keys,
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(
@@ -713,9 +712,9 @@ def new_order_v3(params: NewOrderV3Params) -> TransactionInstruction:
     )
 
 
-def cancel_order_v2(params: CancelOrderV2Params) -> TransactionInstruction:
+def cancel_order_v2(params: CancelOrderV2Params) -> Instruction:
     """Generate a transaction instruction to cancel order."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.bids, is_signer=False, is_writable=True),
@@ -739,9 +738,9 @@ def cancel_order_v2(params: CancelOrderV2Params) -> TransactionInstruction:
 
 def cancel_order_by_client_id_v2(
     params: CancelOrderByClientIDV2Params,
-) -> TransactionInstruction:
+) -> Instruction:
     """Generate a transaction instruction to cancel order by client id."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
             AccountMeta(pubkey=params.bids, is_signer=False, is_writable=True),
@@ -762,9 +761,9 @@ def cancel_order_by_client_id_v2(
     )
 
 
-def close_open_orders(params: CloseOpenOrdersParams) -> TransactionInstruction:
+def close_open_orders(params: CloseOpenOrdersParams) -> Instruction:
     """Generate a transaction instruction to close open orders account."""
-    return TransactionInstruction(
+    return Instruction(
         keys=[
             AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
             AccountMeta(pubkey=params.owner, is_signer=True, is_writable=False),
@@ -776,19 +775,19 @@ def close_open_orders(params: CloseOpenOrdersParams) -> TransactionInstruction:
     )
 
 
-def init_open_orders(params: InitOpenOrdersParams) -> TransactionInstruction:
+def init_open_orders(params: InitOpenOrdersParams) -> Instruction:
     """Generate a transaction instruction to initialize open orders account."""
     touched_keys = [
         AccountMeta(pubkey=params.open_orders, is_signer=False, is_writable=True),
         AccountMeta(pubkey=params.owner, is_signer=True, is_writable=False),
         AccountMeta(pubkey=params.market, is_signer=False, is_writable=False),
-        AccountMeta(pubkey=SYSVAR_RENT_PUBKEY, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=RENT, is_signer=False, is_writable=False),
     ]
     if params.market_authority:
         touched_keys.append(
             AccountMeta(pubkey=params.market_authority, is_signer=False, is_writable=False),
         )
-    return TransactionInstruction(
+    return Instruction(
         keys=touched_keys,
         program_id=params.program_id,
         data=INSTRUCTIONS_LAYOUT.build(dict(instruction_type=InstructionType.INIT_OPEN_ORDERS, args=dict())),

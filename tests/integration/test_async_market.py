@@ -1,8 +1,8 @@
 # pylint: disable=redefined-outer-name
 
 import pytest
-from solana.keypair import Keypair
-from solana.publickey import PublicKey
+from solders.keypair import Keypair
+from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TxOpts
 
@@ -13,7 +13,7 @@ from pyserum.market import AsyncMarket
 @pytest.mark.async_integration
 @pytest.fixture(scope="module")
 def bootstrapped_market(
-    async_http_client: AsyncClient, stubbed_market_pk: PublicKey, stubbed_dex_program_pk: PublicKey, event_loop
+    async_http_client: AsyncClient, stubbed_market_pk: Pubkey, stubbed_dex_program_pk: Pubkey, event_loop
 ) -> AsyncMarket:
     return event_loop.run_until_complete(
         AsyncMarket.load(async_http_client, stubbed_market_pk, stubbed_dex_program_pk, force_use_request_queue=True)
@@ -24,8 +24,8 @@ def bootstrapped_market(
 @pytest.mark.asyncio
 async def test_bootstrapped_market(
     bootstrapped_market: AsyncMarket,
-    stubbed_market_pk: PublicKey,
-    stubbed_dex_program_pk: PublicKey,
+    stubbed_market_pk: Pubkey,
+    stubbed_dex_program_pk: Pubkey,
     stubbed_base_mint: Keypair,
     stubbed_quote_mint: Keypair,
 ):

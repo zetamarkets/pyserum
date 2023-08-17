@@ -2,8 +2,8 @@ import asyncio
 from typing import Dict
 
 import pytest
-from solana.keypair import Keypair
-from solana.publickey import PublicKey
+from solders.keypair import Keypair
+from solders.pubkey import Pubkey
 from solana.rpc.api import Client
 from solana.rpc.async_api import AsyncClient
 
@@ -36,9 +36,9 @@ def __bootstrap_account(pubkey: str, secretkey: str) -> Keypair:
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_dex_program_pk(__bs_params) -> PublicKey:
+def stubbed_dex_program_pk(__bs_params) -> Pubkey:
     """Bootstrapped dex program id."""
-    return PublicKey(__bs_params["dex_program_id"])
+    return Pubkey(__bs_params["dex_program_id"])
 
 
 @pytest.mark.integration
@@ -78,72 +78,72 @@ def stubbed_quote_wallet(__bs_params) -> Keypair:
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_market_pk(__bs_params) -> PublicKey:
+def stubbed_market_pk(__bs_params) -> Pubkey:
     """Public key of the boostrapped market."""
-    return PublicKey(__bs_params["market"])
+    return Pubkey(__bs_params["market"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_req_q_pk(__bs_params) -> PublicKey:
+def stubbed_req_q_pk(__bs_params) -> Pubkey:
     """Public key of the bootstrapped request queue."""
-    return PublicKey(__bs_params["req_q"])
+    return Pubkey(__bs_params["req_q"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_event_q_pk(__bs_params) -> PublicKey:
+def stubbed_event_q_pk(__bs_params) -> Pubkey:
     """Public key of the bootstrapped request queue."""
-    return PublicKey(__bs_params["event_q"])
+    return Pubkey(__bs_params["event_q"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_bids_pk(__bs_params) -> PublicKey:
+def stubbed_bids_pk(__bs_params) -> Pubkey:
     """Public key of the bootstrapped bids book."""
-    return PublicKey(__bs_params["bids"])
+    return Pubkey(__bs_params["bids"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_asks_pk(__bs_params) -> PublicKey:
+def stubbed_asks_pk(__bs_params) -> Pubkey:
     """Public key of the bootstrapped asks book."""
-    return PublicKey(__bs_params["asks"])
+    return Pubkey(__bs_params["asks"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_base_vault_pk(__bs_params) -> PublicKey:
+def stubbed_base_vault_pk(__bs_params) -> Pubkey:
     """Public key of the base vault account."""
-    return PublicKey(__bs_params["coin_vault"])
+    return Pubkey(__bs_params["coin_vault"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_quote_vault_pk(__bs_params) -> PublicKey:
+def stubbed_quote_vault_pk(__bs_params) -> Pubkey:
     """Public key of the quote vault account."""
-    return PublicKey(__bs_params["pc_vault"])
+    return Pubkey(__bs_params["pc_vault"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_vault_signer_pk(__bs_params) -> PublicKey:
+def stubbed_vault_signer_pk(__bs_params) -> Pubkey:
     """Public key of the bootstrapped vault signer."""
-    return PublicKey(__bs_params["vault_signer_key"])
+    return Pubkey(__bs_params["vault_signer_key"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_bid_account_pk(__bs_params) -> PublicKey:
+def stubbed_bid_account_pk(__bs_params) -> Pubkey:
     """Public key of the initial bid order account."""
-    return PublicKey(__bs_params["bid_account"])
+    return Pubkey(__bs_params["bid_account"])
 
 
 @pytest.mark.integration
 @pytest.fixture(scope="session")
-def stubbed_ask_account_pk(__bs_params) -> PublicKey:
+def stubbed_ask_account_pk(__bs_params) -> Pubkey:
     """Public key of the initial ask order account."""
-    return PublicKey(__bs_params["ask_account"])
+    return Pubkey(__bs_params["ask_account"])
 
 
 @pytest.mark.integration

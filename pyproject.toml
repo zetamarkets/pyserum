@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "pyserum"
+version = "0.1.0"
+description = "Python client library for interacting with the Project Serum DEX."
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+solana = "^0.30.2"
+solders = "^0.18.1"
+
+[tool.poetry.dev-dependencies]
+jupyterlab = "^4.0.5"
+ruff = "^0.0.284"
+black = "^23.7.0"
+
+[tool.ruff]
+line-length=120
+
+[tool.black]
+line-length=120
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-exec-plugin.commands]
+format = "black setup.py pyserum tests"
+lint = "ruff check ."

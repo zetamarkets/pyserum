@@ -2,13 +2,10 @@ clean:
 	rm -rf dist build _build __pycache__ *.egg-info
 
 format:
-	pipenv run isort setup.py pyserum tests
-	pipenv run black --line-length=120 setup.py pyserum tests
+	poetry run black setup.py pyserum tests
 
 lint:
-	pipenv run flake8 setup.py pyserum tests
-	pipenv run mypy pyserum
-	pipenv run pylint --rcfile=.pylintrc setup.py pyserum tests
+	poetry run ruff check setup.py pyserum tests
 
 .PHONY: notebook
 notebook:
@@ -17,15 +14,15 @@ notebook:
 publish:
 	make clean
 	python setup.py sdist bdist_wheel
-	pipenv run twine upload -u serum-community dist/*
+	poetry run twine upload -u serum-community dist/*
 
 test-publish:
 	make clean
 	python setup.py sdist bdist_wheel
-	pipenv run twine upload -r testpypi -u serum-community dist/*
+	poetry run twine upload -r testpypi -u serum-community dist/*
 
 unit-tests:
-	pipenv run pytest -v -m "not integration and not async_integration"
+	poetry run pytest -v -m "not integration and not async_integration"
 
 int-tests:
 	bash scripts/run_int_tests.sh
