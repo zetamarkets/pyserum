@@ -15,6 +15,10 @@ jupyterlab = "^4.0.5"
 ruff = "^0.0.284"
 black = "^23.7.0"
 
+[tool.poetry-exec-plugin.commands]
+format = "black setup.py pyserum tests"
+lint = "ruff check ."
+
 [tool.ruff]
 line-length=120
 
@@ -24,7 +28,3 @@ line-length=120
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry-exec-plugin.commands]
-format = "black setup.py pyserum tests"
-lint = "ruff check ."

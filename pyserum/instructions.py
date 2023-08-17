@@ -13,7 +13,7 @@ from ._layouts.instructions import INSTRUCTIONS_LAYOUT, InstructionType
 from .enums import OrderType, SelfTradeBehavior, Side
 
 # V3
-DEFAULT_DEX_PROGRAM_ID = Pubkey.from_string("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+DEFAULT_DEX_PROGRAM_ID = Pubkey.from_string("zDEXqXEG7gAyxb1Kg9mK5fPnUdENCGKzWrM21RMdWRq")
 
 
 class InitializeMarketParams(NamedTuple):

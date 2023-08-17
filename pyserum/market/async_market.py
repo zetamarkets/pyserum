@@ -1,7 +1,7 @@
 """Market module to interact with Serum DEX."""
 from __future__ import annotations
 
-from typing import List
+from typing import List, Tuple
 
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
@@ -15,7 +15,7 @@ from pyserum import instructions
 
 from .._layouts.open_orders import OPEN_ORDERS_LAYOUT
 from ..async_open_orders_account import AsyncOpenOrdersAccount
-from ..async_utils import load_bytes_data
+from ..async_utils import load_bytes_data, load_multiple_bytes_data
 from ..enums import OrderType, Side
 from ._internal.queue import decode_event_queue, decode_request_queue
 from .core import MarketCore
@@ -65,6 +65,12 @@ class AsyncMarket(MarketCore):
         """Load the ask order book."""
         bytes_data = await load_bytes_data(self.state.asks(), self._conn)
         return self._parse_bids_or_asks(bytes_data)
+    
+    async def load_bids_and_asks(self) -> Tuple[OrderBook, OrderBook]:
+        """Load the bid and ask orderbooks"""
+        [bids_bytes, asks_bytes] = await load_multiple_bytes_data([self.state.bids(), self.state.asks()], self._conn)
+        return self._parse_bids_or_asks(bids_bytes), self._parse_bids_or_asks(asks_bytes)
+        
 
     async def load_orders_for_owner(self, owner_address: Pubkey) -> List[t.Order]:
         """Load orders for owner."""
