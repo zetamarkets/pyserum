@@ -10,6 +10,10 @@ ACCOUNT_FLAGS_LAYOUT = BitsSwapped(  # Swap to little endian
         "event_queue" / Flag,
         "bids" / Flag,
         "asks" / Flag,
-        Const(0, BitsInteger(57)),  # Padding
+        "disabled" / Flag,
+        "closed" / Flag,
+        "permissioned" / Flag,
+        "crank_authority_required" / Flag,
+        Const(0, BitsInteger(53)),  # zero padding bits
     )
 )

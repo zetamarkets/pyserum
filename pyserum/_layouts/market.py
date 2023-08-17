@@ -1,4 +1,4 @@
-from construct import Bytes, Int8ul, Int64ul, Padding
+from construct import Bytes, Int8ul, Int16ul, Int64ul, Padding
 from construct import Struct as cStruct
 
 # import borsh_construct as borsh
@@ -28,6 +28,12 @@ MARKET_LAYOUT = cStruct(
     "quote_lot_size" / Int64ul,
     "fee_rate_bps" / Int64ul,
     "referrer_rebate_accrued" / Int64ul,
+    "open_orders_authority" / Bytes(32),
+    "prune_authority" / Bytes(32),
+    "consume_events_authority" / Bytes(32),
+    "epoch_length" / Int16ul,
+    "epoch_start_ts" / Int64ul,
+    Padding(974),
     Padding(7),
 )
 
